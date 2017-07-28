@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   valueText: {
     flex: 1,
     fontSize: 16,
-    color: '#111111'
+    color: '#111111',
     ...outline,
   },
   focused: {
