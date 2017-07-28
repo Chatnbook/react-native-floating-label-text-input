@@ -51,20 +51,20 @@ class TextFieldHolder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      marginAnim: new Animated.Value(this.props.withValue ? 10 : 0)
+      marginAnim: new Animated.Value(this.props.withValue ? 15 : 0)
     }
   }
 
   componentWillReceiveProps(newProps) {
     return Animated.timing(this.state.marginAnim, {
-      toValue: newProps.withValue ? 10 : 0,
+      toValue: newProps.withValue ? 15 : 0,
       duration: 230
     }).start();
   }
 
   render() {
     return (
-      <Animated.View style={{ marginTop: this.state.marginAnim }}>
+      <Animated.View style={{ flex: 1, marginTop: this.state.marginAnim }}>
         {this.props.children}
       </Animated.View>
     );
@@ -180,6 +180,8 @@ class FloatLabelTextField extends Component {
   }
 }
 
+const outline = Platform.OS === 'web' ? { outline: '0' } : null;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -214,9 +216,10 @@ const styles = StyleSheet.create({
     borderColor: '#C8C7CC',
   },
   valueText: {
-    height: (Platform.OS == 'ios' ? 20 : 60),
+    flex: 1,
     fontSize: 16,
     color: '#111111'
+    ...outline,
   },
   focused: {
     color: "#1482fe"
