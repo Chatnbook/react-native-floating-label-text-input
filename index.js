@@ -107,7 +107,7 @@ class FloatLabelTextField extends Component {
                 underlineColorAndroid="transparent"
                 style={[
                     styles.valueText,
-                    this.props.multiline && !this.state.text ? { paddingTop: 11 } : null,
+                    this.props.multiline ? { paddingTop: !this.state.text ? 11 : 4 } : null,
                 ]}
                 defaultValue={this.props.defaultValue}
                 value={this.state.text}
