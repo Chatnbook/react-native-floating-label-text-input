@@ -64,7 +64,7 @@ class TextFieldHolder extends Component {
 
   render() {
     return (
-      <Animated.View style={{ flex: 1, marginTop: this.state.marginAnim }}>
+      <Animated.View style={{ flexGrow: 1, marginTop: this.state.marginAnim }}>
         {this.props.children}
       </Animated.View>
     );
@@ -105,7 +105,10 @@ class FloatLabelTextField extends Component {
               <TextInput {...this.props}
                 ref='input'
                 underlineColorAndroid="transparent"
-                style={[styles.valueText]}
+                style={[
+                    styles.valueText,
+                    this.props.multiline && !this.state.text ? { paddingTop: 11 } : null,
+                ]}
                 defaultValue={this.props.defaultValue}
                 value={this.state.text}
                 maxLength={this.props.maxLength}
@@ -216,7 +219,7 @@ const styles = StyleSheet.create({
     borderColor: '#C8C7CC',
   },
   valueText: {
-    flex: 1,
+    flexGrow: 1,
     fontSize: 16,
     color: '#111111',
     ...outline,
