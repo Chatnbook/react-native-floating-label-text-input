@@ -219,7 +219,6 @@ const styles = StyleSheet.create({
         left: 0,
     },
     fieldLabel: {
-        height: 15,
         fontSize: 10,
         color: '#B1B1B1',
     },
