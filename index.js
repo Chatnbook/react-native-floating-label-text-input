@@ -114,7 +114,7 @@ class FloatLabelTextField extends Component {
                             <TextInput
                                 {...this.props}
                                 ref="input"
-                                underlineColorAndroid="transparent"
+                                // underlineColorAndroid="transparent"
                                 style={[
                                     styles.valueText,
                                     this.props.textStyle,
