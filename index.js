@@ -9,6 +9,10 @@ import {
     Platform,
 } from 'react-native';
 
+const lineHeight = Platform.OS !== 'web' ? 34 : 29;
+const multilineExtra = Platform.OS !== 'web' ? 30 : 20;
+const multilineOffset = 20;
+
 class FloatingLabel extends Component {
     constructor(props) {
         super(props);
@@ -51,21 +55,29 @@ class FloatingLabel extends Component {
 class TextFieldHolder extends Component {
     constructor(props) {
         super(props);
+
+        const marginAnim = props.withValue
+            ? 30
+            : (props.multiline ? multilineOffset : 0);
         this.state = {
-            marginAnim: new Animated.Value(this.props.withValue ? 15 : 0),
+            marginAnim: new Animated.Value(marginAnim),
         };
     }
 
     componentWillReceiveProps(newProps) {
         return Animated.timing(this.state.marginAnim, {
-            toValue: newProps.withValue ? 15 : 0,
+            toValue: newProps.withValue
+                ? 30
+                : (newProps.multiline ? multilineOffset : 0),
             duration: 230,
         }).start();
     }
 
     render() {
         return (
-            <Animated.View style={{ flexGrow: 1, marginTop: this.state.marginAnim }}>
+            <Animated.View style={{
+                marginTop: this.state.marginAnim,
+            }}>
                 {this.props.children}
             </Animated.View>
         );
@@ -103,23 +115,28 @@ class FloatLabelTextField extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.viewContainer}>
-                    <View style={styles.paddingView} />
+                <View style={[styles.viewContainer, { paddingLeft: this.props.paddingLeft }]}>
                     <View style={[styles.fieldContainer, this.withBorder()]}>
                         <FloatingLabel visible={this.state.text}>
                             {this.renderIcon()}
                             <Text style={[styles.fieldLabel, this.props.floatingLabelStyle, this.labelStyle()]}>{this.placeholderValue()}</Text>
                         </FloatingLabel>
-                        <TextFieldHolder withValue={this.state.text}>
+                        <TextFieldHolder
+                            withValue={this.state.text}
+                            multiline={this.props.multiline}
+                        >
                             <TextInput
                                 {...this.props}
                                 ref="input"
                                 // underlineColorAndroid="transparent"
                                 style={[
                                     styles.valueText,
+                                    {
+                                        minHeight: lineHeight
+                                            + (this.props.multiline ? multilineExtra : 0)
+                                    },
                                     this.props.textStyle,
-                                    this.props.icon ? { paddingLeft: 41 } : null,
-                                    this.props.multiline ? { paddingTop: !this.state.text ? 11 : 4 } : null,
+                                    this.props.icon ? { marginLeft: 41 } : null,
                                 ]}
                                 defaultValue={this.props.defaultValue}
                                 value={this.state.text}
@@ -200,16 +217,12 @@ const outline = Platform.OS === 'web' ? { outline: '0' } : null;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: 45,
-        backgroundColor: 'transparent',
         justifyContent: 'center',
     },
     viewContainer: {
         flex: 1,
         flexDirection: 'row',
-    },
-    paddingView: {
-        width: 15,
+        paddingLeft: 15,
     },
     floatingLabel: {
         flexDirection: 'row',
@@ -232,7 +245,11 @@ const styles = StyleSheet.create({
         borderColor: '#C8C7CC',
     },
     valueText: {
-        flexGrow: 1,
+        textAlignVertical: 'top',
+        paddingTop: 5,
+        paddingBottom: 5,
+        backgroundColor: 'transparent',
+        // flexGrow: 1,
         fontSize: 16,
         color: '#111111',
         ...outline,
@@ -250,3 +267,7 @@ const styles = StyleSheet.create({
 });
 
 export default FloatLabelTextField;
+
+FloatLabelTextField.defaultProps = {
+    paddingLeft: 0,
+};
