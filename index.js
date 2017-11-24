@@ -115,7 +115,16 @@ class FloatLabelTextField extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={[styles.viewContainer, { paddingLeft: this.props.paddingLeft }]}>
+                <View
+                    style={[
+                        styles.viewContainer,
+                        {
+                            paddingTop: this.props.contentInset.top,
+                            paddingLeft: this.props.contentInset.left,
+                            paddingRight: this.props.contentInset.right,
+                            paddingBottom: this.props.contentInset.bottom,
+                        }
+                    ]}>
                     <View style={[styles.fieldContainer, this.withBorder()]}>
                         <FloatingLabel visible={this.state.text}>
                             {this.renderIcon()}
@@ -222,7 +231,6 @@ const styles = StyleSheet.create({
     viewContainer: {
         flex: 1,
         flexDirection: 'row',
-        paddingLeft: 15,
     },
     floatingLabel: {
         flexDirection: 'row',
@@ -232,7 +240,7 @@ const styles = StyleSheet.create({
         left: 0,
     },
     fieldLabel: {
-        fontSize: 10,
+        fontSize: 16,
         color: '#B1B1B1',
     },
     fieldContainer: {
@@ -269,5 +277,19 @@ const styles = StyleSheet.create({
 export default FloatLabelTextField;
 
 FloatLabelTextField.defaultProps = {
-    paddingLeft: 0,
+    contentInset: {
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
+};
+
+FloatLabelTextField.propTypes = {
+    contentInset: React.PropTypes.shape({
+        top:  React.PropTypes.number,
+        left:  React.PropTypes.number,
+        right:  React.PropTypes.number,
+        bottom:  React.PropTypes.number,
+    }),
 };
