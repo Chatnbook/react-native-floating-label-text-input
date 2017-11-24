@@ -57,7 +57,7 @@ class TextFieldHolder extends Component {
         super(props);
 
         const marginAnim = props.withValue
-            ? 30
+            ? props.marginAnim
             : (props.multiline ? multilineOffset : 0);
         this.state = {
             marginAnim: new Animated.Value(marginAnim),
@@ -67,7 +67,7 @@ class TextFieldHolder extends Component {
     componentWillReceiveProps(newProps) {
         return Animated.timing(this.state.marginAnim, {
             toValue: newProps.withValue
-                ? 30
+                ? newProps.marginAnim
                 : (newProps.multiline ? multilineOffset : 0),
             duration: 230,
         }).start();
@@ -132,6 +132,7 @@ class FloatLabelTextField extends Component {
                         </FloatingLabel>
                         <TextFieldHolder
                             withValue={this.state.text}
+                            marginAnim={this.props.marginAnim}
                             multiline={this.props.multiline}
                         >
                             <TextInput
@@ -283,6 +284,7 @@ FloatLabelTextField.defaultProps = {
         right: 0,
         bottom: 0,
     },
+    marginAnim: 30,
 };
 
 FloatLabelTextField.propTypes = {
@@ -292,4 +294,5 @@ FloatLabelTextField.propTypes = {
         right:  React.PropTypes.number,
         bottom:  React.PropTypes.number,
     }),
+    marginAnim: React.PropTypes.number,
 };
