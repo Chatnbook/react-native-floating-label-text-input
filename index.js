@@ -9,10 +9,6 @@ import {
     Platform,
 } from 'react-native';
 
-const lineHeight = Platform.OS !== 'web' ? 34 : 29;
-const multilineExtra = Platform.OS !== 'web' ? 30 : 20;
-const multilineOffset = 20;
-
 class FloatingLabel extends Component {
     constructor(props) {
         super(props);
@@ -58,7 +54,7 @@ class TextFieldHolder extends Component {
 
         const marginAnim = props.withValue
             ? props.marginAnim
-            : (props.multiline ? multilineOffset : 0);
+            : (props.multiline ? props.marginMultiline : 0);
         this.state = {
             marginAnim: new Animated.Value(marginAnim),
         };
@@ -68,7 +64,7 @@ class TextFieldHolder extends Component {
         return Animated.timing(this.state.marginAnim, {
             toValue: newProps.withValue
                 ? newProps.marginAnim
-                : (newProps.multiline ? multilineOffset : 0),
+                : (newProps.multiline ? newProps.marginMultiline : 0),
             duration: 230,
         }).start();
     }
@@ -76,6 +72,7 @@ class TextFieldHolder extends Component {
     render() {
         return (
             <Animated.View style={{
+                flexGrow: 1,
                 marginTop: this.state.marginAnim,
             }}>
                 {this.props.children}
@@ -134,6 +131,7 @@ class FloatLabelTextField extends Component {
                             withValue={this.state.text}
                             marginAnim={this.props.marginAnim}
                             multiline={this.props.multiline}
+                            marginMultiline={this.props.marginMultiline}
                         >
                             <TextInput
                                 {...this.props}
@@ -141,10 +139,6 @@ class FloatLabelTextField extends Component {
                                 // underlineColorAndroid="transparent"
                                 style={[
                                     styles.valueText,
-                                    {
-                                        minHeight: lineHeight
-                                            + (this.props.multiline ? multilineExtra : 0)
-                                    },
                                     this.props.textStyle,
                                     this.props.icon ? { marginLeft: 41 } : null,
                                 ]}
@@ -254,11 +248,11 @@ const styles = StyleSheet.create({
         borderColor: '#C8C7CC',
     },
     valueText: {
+        flexGrow: 1,
         textAlignVertical: 'top',
         paddingTop: 5,
         paddingBottom: 5,
         backgroundColor: 'transparent',
-        // flexGrow: 1,
         fontSize: 16,
         color: '#111111',
         ...outline,
@@ -285,6 +279,7 @@ FloatLabelTextField.defaultProps = {
         bottom: 0,
     },
     marginAnim: 30,
+    marginMultiline: 20,
 };
 
 FloatLabelTextField.propTypes = {
@@ -295,4 +290,5 @@ FloatLabelTextField.propTypes = {
         bottom:  React.PropTypes.number,
     }),
     marginAnim: React.PropTypes.number,
+    marginMultiline: React.PropTypes.number,
 };
