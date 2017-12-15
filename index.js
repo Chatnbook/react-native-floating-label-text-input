@@ -270,25 +270,3 @@ const styles = StyleSheet.create({
 });
 
 export default FloatLabelTextField;
-
-FloatLabelTextField.defaultProps = {
-    contentInset: {
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-    },
-    marginAnim: 30,
-    marginMultiline: 20,
-};
-
-FloatLabelTextField.propTypes = {
-    contentInset: React.PropTypes.shape({
-        top:  React.PropTypes.number,
-        left:  React.PropTypes.number,
-        right:  React.PropTypes.number,
-        bottom:  React.PropTypes.number,
-    }),
-    marginAnim: React.PropTypes.number,
-    marginMultiline: React.PropTypes.number,
-};
